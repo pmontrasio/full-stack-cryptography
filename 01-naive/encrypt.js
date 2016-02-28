@@ -1,8 +1,10 @@
+#!/usr/bin/env node
+
 const fs = require("fs");
 const crypto = require("crypto");
 
 function *main() {
-  const plaintext = yield readFile("plaintext.txt");
+  const plaintext = yield readFile("../plaintext.txt");
   const publicKeyPem = yield readFile("../public_key.pem");
   console.log("Encrypting:");
   console.log("-----------------");
