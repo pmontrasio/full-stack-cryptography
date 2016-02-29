@@ -17,12 +17,19 @@
     cd ..
 
     cd 02-deterministic
+    npm install
     node encrypt.js # or ./encrypt.js
+    cd ..
+
+    cd 03-client-server
+    npm install
+    node index.js # or ./index.js
+    # browse to http://localhost:3000 and follow the instructions
     cd ..
 
 # References #
 
-https://nodejs.org/api/crypto.html
-https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL
-https://davidwalsh.name/es6-generators
+* https://nodejs.org/api/crypto.html
+* https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL
+* https://davidwalsh.name/es6-generators
 
