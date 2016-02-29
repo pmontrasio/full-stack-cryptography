@@ -5,19 +5,22 @@ const crypto = require("crypto");
 const constants = require("constants");
 const seedrandom = require("seedrandom");
 const express = require("express");
-const app = express();
-var data;
 
+const app = express();
+app.use("/static", express.static("static"));
+app.set("views", "views");
+app.set("view engine", "ejs");
+
+var data;
 const encrypt = prepare_data();
 encrypt.next();
 
 app.get("/", function (req, res) {
-  //res.send(...) html page
+  res.render("index", { data: data });
 });
 
 app.get("/data", function (req, res) {
-  //res.send(...) data in json
-  console.log(data);
+  res.json({"data": data});
 });
 
 app.listen(3000, function () {
@@ -26,9 +29,9 @@ app.listen(3000, function () {
 
 function *prepare_data() {
   const plaintext = yield readFile("../plaintext.txt");
-  console.log(plaintext);
+  //console.log(plaintext);
   const publicKeyPem = yield readFile("../public_key.pem");
-  console.log(publicKeyPem);
+  //console.log(publicKeyPem);
   const buffer = new Buffer(256);
   const plaintextBuffer = new Buffer(plaintext, "utf8");
   plaintextBuffer.copy(buffer);
@@ -39,6 +42,7 @@ function *prepare_data() {
     buffer[i] = Math.floor(rng() * 256);
   }
 
+  // TODO encode in base64
   data = crypto.publicEncrypt(encryptionOptions, buffer);
 }
 
