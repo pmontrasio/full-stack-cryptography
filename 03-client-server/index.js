@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const constants = require("constants");
 const seedrandom = require("seedrandom");
 const express = require("express");
+const port = 4000;
 
 const app = express();
 app.use("/static", express.static("static"));
@@ -19,12 +20,8 @@ app.get("/", function (req, res) {
   res.render("index", { data: data });
 });
 
-app.get("/data", function (req, res) {
-  res.json({"data": data});
-});
-
-app.listen(3000, function () {
-    console.log("Example app listening on port 3000!");
+app.listen(port, function () {
+    console.log("Demo 03 app listening on http://localhost:" + port);
 });
 
 function *prepare_data() {
@@ -43,11 +40,11 @@ function *prepare_data() {
   }
 
   // TODO encode in base64
-  data = crypto.publicEncrypt(encryptionOptions, buffer);
+  data = crypto.publicEncrypt(encryptionOptions, buffer).toString("base64");
+  console.log(data);
 }
 
 function readFile(file) {
-  console.log(file);
   fs.readFile(file, "utf8", function (err, content) {
     if (err) {
       console.log(err);
