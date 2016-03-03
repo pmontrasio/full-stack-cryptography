@@ -55,8 +55,9 @@ But... how to tell where the string ends and the padding starts?
 C. We use a 0 byte, in the best C tradition. This might not work for your data. Find your schema.
 
 And remember that deterministic encryption weakens the safety of the data.
+And you better use proven libraries, not write your code. Oh well...
 
-Good, the ciphertext is in the database now and we can select the database with the ciphertext.
+Good, we have a deterministic ciphertext now. We stored it in the database and we could use it in our SQL selects.
 
 How about seeing those data in the browser, in plaintext?
 
@@ -67,18 +68,47 @@ How about seeing those data in the browser, in plaintext?
     node index.js # or ./index.js
     # browse to http://localhost:3000 and follow the instructions
 
-We must send the ciphertext to the browser. We embed it into the HTML page, which is equivalent to sending it in a JSON.
+We must send the ciphertext to the browser. We embedded it into the HTML page, which is equivalent to sending it in a JSON. But we can't send arbitrary binary data in HTML or JSON.
 D. We use Base64. If your backend is not Node be careful and check the format of the encoded string: it might not be compatible with JavaScript's Base64 parser. Example: the Ruby Base64 library terminates the Base64 string with a newline and that breaks the JavaScript parser.
 
 Then we must decrypt. We must ask the user to paste the private key into the browser. Doubts about the security of doing crypto in a browser, with all sorts or possible attacks, still... if the customer is informed and agrees we do it, right?
 
-E. Pasting the key every time is a pain, so you might want to store it locally. One more security hazard.
+E. Pasting the key every time is a pain, so you might want to store it in the browser storage. One more security hazard. The customer agreed.
 
 F. Decryption: we're using the JSEncrypt library which wraps http://www-cs-students.stanford.edu/~tjw/jsbn/
-Problem: it handles only the PKCS1v15 padding but we're using no padding.
+Problem: it handles only the PKCS1v15 padding but we're using no padding. Plus: they were not testing for 2048 bit keys.
 Solution: fork the library to https://github.com/pmontrasio/jsencrypt and add the decryption for the RSA_NO_PADDING case.
+Then you look at the code and you are like "OMG I can't possibly make it".
+Then you run the debugger and narrow it down to this function. Still OMG but less scary
 
-It finally works.
+    function pkcs1unpad2(d,n) {
+      var b = d.toByteArray();
+      var i = 0;
+      while(i < b.length && b[i] == 0) ++i;
+      if(b.length-i != n-1 || b[i] != 2)
+        return null;
+      ++i;
+      while(b[i] != 0)
+        if(++i >= b.length) return null;
+      var ret = "";
+      while(++i < b.length) {
+        var c = b[i] & 255;
+        if(c < 128) { // utf-8 decode
+          ret += String.fromCharCode(c);
+        }
+        else if((c > 191) && (c < 224)) {
+          ret += String.fromCharCode(((c & 31) << 6) | (b[i+1] & 63));
+          ++i;
+        }
+        else {
+          ret += String.fromCharCode(((c & 15) << 12) | ((b[i+1] & 63) << 6) | (b[i+2] & 63));
+          i += 2;
+        }
+      }
+      return ret;
+    }
+
+Some hacking and it finally works.
 
 # Curiosities
 
