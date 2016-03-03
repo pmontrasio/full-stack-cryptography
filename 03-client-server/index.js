@@ -41,7 +41,7 @@ function *prepare_data() {
 
   // TODO encode in base64
   data = crypto.publicEncrypt(encryptionOptions, buffer).toString("base64");
-  console.log(data);
+  //console.log(data);
 }
 
 function readFile(file) {

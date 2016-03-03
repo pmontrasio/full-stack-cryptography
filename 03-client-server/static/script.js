@@ -1,8 +1,9 @@
+const ciphertext = document.getElementById("base64").textContent;
 const openFormBtn = document.getElementById("open-form");
 const privateKeyForm = document.getElementById("private-key-form");
 const privateKeyTextArea = document.getElementById("private-key");
-const cipherText = document.getElementById("base64").value;
 const decryptBtn = document.getElementById("decrypt");
+const plaintextDisplay = document.getElementById("plaintext");
 
 function addEventListener(el, eventName, handler) {
   if (el.addEventListener) {
@@ -19,7 +20,10 @@ addEventListener(openFormBtn, "click", function () {
 });
 
 addEventListener(decryptBtn, "click", function () {
-  const privateKeyPem = privateKeyTextArea.value;
-  const cipherText =
-  decrypt()
+  const jse = new JSEncrypt();
+  jse.setKey(privateKeyTextArea.value);
+  const buffer = jse.decryptNoPadding(ciphertext);
+  const plaintext = buffer.substring(0, buffer.indexOf("\0"));
+  plaintextDisplay.textContent = plaintext;
+  plaintextDisplay.style.display = "inline";
 });

@@ -26,3 +26,7 @@ body, input, textarea {
     width: 100%;
     height: 144px;
 }
+
+#plaintext {
+    display: none;
+}
