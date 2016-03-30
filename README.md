@@ -30,7 +30,7 @@ Easy, encrypt with the public key and store the cipertext in the database.
 NEVER put the private key on the server. If you do you could just use symmetric encryption, which is much faster.
 
 We discovered that public key encryption works on buffers of the same length of the key.
-Data must be broken into chunks and the last chunk must be padded. We were using the openssl library and it takes care of padding.
+Data must be broken into chunks and the last chunk must be padded. We're lucky, because our data fit into a block of 256 bytes (key is 2048 bit). We were using the openssl library and it takes care of padding.
 
 But... the queries don't retrieve all the records they should. Actually the return only one record.
 
