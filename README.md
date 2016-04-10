@@ -2,7 +2,7 @@
 
 Problem to solve: encrypt some data, store it in a database and be able to make query on the ciphertext.
 
-    select * from table where cipertext = '...';
+    select * from table where ciphertext = '...';
 
 It must be reasonably safe, better than plaintext: it must be inconvenient for a determined attacker but it's not required to be impossible to crack. If you want it to be impossible to crack you must do away with the ability to query the database on the cipertext. More about this soon.
 
@@ -26,13 +26,13 @@ It must be reasonably safe, better than plaintext: it must be inconvenient for a
     node encrypt.js # or ./encrypt.js
     cd ..
 
-Easy, encrypt with the public key and store the cipertext in the database.
+Easy, encrypt with the public key and store the ciphertext in the database.
 NEVER put the private key on the server. If you do you could just use symmetric encryption, which is much faster.
 
 We discovered that public key encryption works on buffers of the same length of the key.
 Data must be broken into chunks and the last chunk must be padded. We're lucky, because our data fit into a block of 256 bytes (key is 2048 bit). We were using the openssl library and it takes care of padding.
 
-But... the queries don't retrieve all the records they should. Actually the return only one record.
+But... the queries don't retrieve all the records they should. Actually they return only one record.
 
 How naive! We thought that encrypting a string always yields the same ciphertext. That is bad because it helps to brute force the decryption: encrypt many different plaintexts with the public key and you get. This works best if the plaintext is short and brute forcing and rainbow tables are feasible.
 
