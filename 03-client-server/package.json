@@ -10,6 +10,7 @@
   "license": "",
   "dependencies": {
     "ejs": "^2.4.1",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "seedrandom": "^2.4.2"
   }
 }
