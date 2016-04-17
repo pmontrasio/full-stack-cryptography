@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Full Stack Encryption - Demo 04</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/jsencrypt.js"></script>
+  </head>
+  <body>
+    <p>The server sent the cyphertext encoded in Base64</p>
+    <p id="base64"><%= data %></p>
+    <p><span id="open-form">Click me</span> to decrypt.</p>
+    <form action="#" id="private-key-form">
+      <p id="unknown-key-text">
+        Paste your private key here. It's in the main directory of the repository:
+        <i>private_key.pem</i>
+      </p>
+      <p id="known-key-text">I remember your private key:</p>
+      <textarea id="private-key"></textarea>
+      <br>
+      <input id="decrypt" type="submit" value="Decrypt!">
+    </form>
+    <p id="plaintext"></p>
+    <script src="/static/script.js"></script>
+  </body>
+</html>
