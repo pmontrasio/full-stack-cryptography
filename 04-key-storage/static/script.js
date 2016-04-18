@@ -36,7 +36,7 @@ addEventListener(decryptBtn, "click", function () {
 });
 
 function showStoredKey() {
-  privateKeyTextArea.textContent = localStorage.getItem('key');
+  privateKeyTextArea.value = localStorage.getItem('key');
   knownKeyText.style.display = "inline";
   unknownKeyText.style.display = "none";
   privateKeyForm.style.display = "inline";
