@@ -66,7 +66,7 @@ How about seeing those data in the browser, in plaintext?
     cd 03-client-server
     npm install
     node index.js # or ./index.js
-    # browse to http://localhost:3000 and follow the instructions
+    # browse to http://localhost:4000 and follow the instructions
 
 We must send the ciphertext to the browser. We embedded it into the HTML page, which is equivalent to sending it in a JSON. But we can't send arbitrary binary data in HTML or JSON.
 D. We use Base64. If your backend is not Node be careful and check the format of the encoded string: it might not be compatible with JavaScript's Base64 parser. Example: the Ruby Base64 library terminates the Base64 string with a newline and that breaks the JavaScript parser.
@@ -109,6 +109,16 @@ Then you run the debugger and narrow it down to this function. Still OMG but les
     }
 
 Some hacking and it finally works.
+
+# 04
+
+Same as 03 but ```static/script.js``` is modified to store the private key in local storage.
+
+    cd 04-key-storage
+    npm install
+    node index.js # or ./index.js
+    # browse to http://localhost:4000 and follow the instructions
+
 
 # Curiosities
 
