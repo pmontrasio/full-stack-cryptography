@@ -39,9 +39,8 @@ function *prepare_data() {
     buffer[i] = Math.floor(rng() * 256);
   }
 
-  // TODO encode in base64
+  // encode in base64
   data = crypto.publicEncrypt(encryptionOptions, buffer).toString("base64");
-  //console.log(data);
 }
 
 function readFile(file) {
