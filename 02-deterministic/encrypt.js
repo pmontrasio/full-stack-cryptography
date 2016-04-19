@@ -19,19 +19,19 @@ function *main() {
   const plaintextBuffer = new Buffer(plaintext, "utf8");
   plaintextBuffer.copy(buffer);
   // we have to pad the buffer with some data that is the same every time we encrypt the same string so
-  // 1) we disable automatic padding
-  const encryptionOptions = { key: publicKeyPem, padding: constants.RSA_NO_PADDING };
-  // 2) we seed the random number generator with something that depends on the plaintext
+  // 1) we seed the random number generator with something that depends on the plaintext
   //    ops: there is no Math.seed in JavaScript and NodeJs so we use the seedrandom module
   const rng = seedrandom(crypto.createHmac("sha256", plaintext));
-  // 3) and fill with random data
+  // 2) and fill with random data
   for (var i = 256 - plaintextBuffer.length; i < 256; i++) {
     buffer[i] = Math.floor(rng() * 256);
   }
-  // 4) but we'll have a problem when decrypting: where do the plaintext ends and the random data start?
+  // 3) but we'll have a problem when decrypting: where do the plaintext ends and the random data start?
   //    we mark it with a 0, in C tradition
   buffer[plaintextBuffer.length] = 0;
 
+  // 4) we disable automatic padding
+  const encryptionOptions = { key: publicKeyPem, padding: constants.RSA_NO_PADDING };
   const ciphertext1 = crypto.publicEncrypt(encryptionOptions, buffer);
   const ciphertext2 = crypto.publicEncrypt(encryptionOptions, buffer);
   if (ciphertext1.equals(ciphertext2)) {
