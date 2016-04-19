@@ -65,7 +65,7 @@ How about seeing those data in the browser, in plaintext?
 
     cd 03-client-server
     npm install
-    node index.js # or ./index.js
+    npm start # or node index.js or ./index.js
     # browse to http://localhost:4000 and follow the instructions
 
 We must send the ciphertext to the browser. We embedded it into the HTML page, which is equivalent to sending it in a JSON. But we can't send arbitrary binary data in HTML or JSON.
@@ -116,7 +116,7 @@ Same as 03 but ```static/script.js``` is modified to store the private key in lo
 
     cd 04-key-storage
     npm install
-    node index.js # or ./index.js
+    npm start # or node index.js or ./index.js
     # browse to http://localhost:4000 and follow the instructions
 
 
@@ -139,3 +139,7 @@ It has been fixed but remember that server side you have crypto which does a muc
 * http://www-cs-students.stanford.edu/~tjw/jsbn/
 * https://github.com/pmontrasio/jsencrypt
 * https://nodejs.org/api/crypto.html
+
+We made a presentation at a M&M Mean Milan Meetup (http://www.meetup.com/MM-MeanMilan/) out of this.
+
+Slides at https://connettiva.eu/full-stack-cryptography
